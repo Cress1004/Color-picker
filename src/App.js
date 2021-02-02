@@ -10,14 +10,36 @@ class App extends Component {
     super(props);
     this.state = {
       color: 'blue',
-      fontSize: 15
+      fontSize: 10
     };
+
+    this.onSetColor = this.onSetColor.bind(this);
+    this.onChageSize = this.onChageSize.bind(this);
+    this.onSettingDefault = this.onSettingDefault.bind(this);
   }
 
-  onSetColor = (params) => {
+  onSetColor(params) {
     this.setState({
-      color:params
+      color: params
     })
+  }
+
+  onChageSize(value) {
+    
+      if(this.state.fontSize + value >= 8 && this.state.fontSize + value <= 36) {
+        this.setState({ fontSize: (this.state.fontSize + value) })
+      } else {
+        this.setState({ fontSize: (this.state.fontSize) });
+      }
+  }
+
+  onSettingDefault(value) {
+    if (value) {
+      this.setState({
+        color: 'blue',
+        fontSize: 10
+      });
+    }
   }
 
   render() {
@@ -29,10 +51,10 @@ class App extends Component {
             fontSize={this.state.fontSize}
             onReceiveColor={this.onSetColor} />
           <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <SizeSetting />
-            <Reset />
+            <SizeSetting fontSize={this.state.fontSize} onChangeSize={this.onChageSize} />
+            <Reset onSettingDefault={this.onSettingDefault} />
           </div>
-          <Result color={ this.state.color }/>
+          <Result color={this.state.color} fontSize={this.state.fontSize} />
         </div>
       </div>
     );
